@@ -16,7 +16,7 @@ Marcelo M. Caetano
 
 O **Bilhetinho API** representa o módulo de **Serviço de Negócios e Persistência de Dados (Back-End)** do sistema Bilhetinho. Ele atua como o motor central da aplicação, operando de forma autônoma para garantir a integridade de todas as operações e o armazenamento seguro das informações.
 
-### Responsabilidades principais deste projeto:
+### Responsabilidades principais deste projeto
 
 1. **Gestão de Músicos e Apresentações:**
    * Cadastro e identificação de músicos.
@@ -43,8 +43,16 @@ O **Bilhetinho API** representa o módulo de **Serviço de Negócios e Persistê
 
 ---
 
-## Documentação Interativa da API (Swagger UI)
+## Camada de Persistência (Spring Data JPA)
+
+* **`MusicoRepository`:** Operações de persistência e busca rápida por e-mail único (`findByEmail`).
+* **`EventoRepository`:** Busca por UUID do QR Code (`findByCodEvento`), busca de shows do músico e filtros de eventos ativos por cidade e data.
+* **`EventoEnderecoRepository`:** Gestão do endereço físico do evento integrado ao ViaCEP.
+* **`BilhetinhoRepository`:** Gerenciamento da fila de pedidos por evento ordenada cronologicamente e contagem por status.
+
+---
 
 Com a aplicação rodando, a documentação interativa e os testes de todas as rotas estão disponíveis em:
+
 * **Swagger UI:** `http://localhost:8080/swagger-ui.html`
 * **OpenAPI JSON:** `http://localhost:8080/api-docs`
