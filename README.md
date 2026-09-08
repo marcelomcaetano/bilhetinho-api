@@ -52,6 +52,22 @@ O **Bilhetinho API** representa o módulo de **Serviço de Negócios e Persistê
 
 ---
 
+## Camada de Transferência de Dados (DTOs — Java Records)
+
+Implementados como `records` do Java 21, assegurando imutabilidade, integridade estrutural e validações com Bean Validation (`jakarta.validation.constraints`):
+
+* **`MusicoRequestDTO`:** Dados de entrada para cadastro do artista (`nome`, `email` com validação de formato e `estiloMusical`).
+* **`MusicoResponseDTO`:** Retorno do músico cadastrado com seu identificador gerado (`id`).
+* **`EventoEnderecoDTO`:** Estrutura de endereço padronizada para consumo do ViaCEP (`cep` formatado, `logradouro`, `numero`, `complemento`, `bairro`, `cidade`, `uf`).
+* **`EventoRequestDTO`:** Entrada para criação de shows com validação em cascata (`@Valid`) do endereço e vínculos de músico.
+* **`EventoResponseDTO`:** Retorno completo do evento para o front-end, incluindo `codEvento` (`UUID`) para exibição e geração do QR Code.
+* **`StatusEventoUpdateDTO`:** Atualização do ciclo de vida do show (`PENDENTE`, `ATIVO`, `ENCERRADO`).
+* **`BilhetinhoRequestDTO`:** Solicitação de música feita pelo público (`codEvento`, `musica`, `artista`, `nomeSolicitante`, `mensagem`).
+* **`BilhetinhoResponseDTO`:** Retorno do pedido criado com timestamp, status e dados associados.
+* **`StatusBilhetinhoUpdateDTO`:** Alteração do status do pedido pelo músico no palco (`PENDENTE`, `ACEITO`, `REJEITADO`).
+
+---
+
 Com a aplicação rodando, a documentação interativa e os testes de todas as rotas estão disponíveis em:
 
 * **Swagger UI:** `http://localhost:8080/swagger-ui.html`
