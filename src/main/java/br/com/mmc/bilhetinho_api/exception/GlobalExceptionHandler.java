@@ -43,6 +43,12 @@ public class GlobalExceptionHandler {
         return buildResponse(HttpStatus.BAD_REQUEST, "Dados de requisição inválidos", erros, request, ex);
     }
 
+    @ExceptionHandler(org.springframework.http.converter.HttpMessageNotReadableException.class)
+    public ResponseEntity<ErrorResponseDTO> handleMessageNotReadable(org.springframework.http.converter.HttpMessageNotReadableException ex, HttpServletRequest request) {
+        log.warn("Corpo da requisição JSON inválido: {} - URL: {}", ex.getMessage(), request.getRequestURI());
+        return buildResponse(HttpStatus.BAD_REQUEST, "Corpo da requisição JSON inválido ou malformatado", "O payload JSON enviado é inválido ou contém erros de sintaxe.", request, ex);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponseDTO> handleGenericException(Exception ex, HttpServletRequest request) {
         log.error("Erro interno no servidor: {} - URL: {}", ex.getMessage(), request.getRequestURI(), ex);
