@@ -62,6 +62,13 @@ public class Evento {
     @OneToOne(mappedBy = "evento", cascade = CascadeType.ALL, orphanRemoval = true)
     private EventoEndereco endereco;
 
+    public void setEndereco(EventoEndereco endereco) {
+        this.endereco = endereco;
+        if (endereco != null) {
+            endereco.setEvento(this);
+        }
+    }
+
     @PrePersist
     public void prePersist() {
         if (this.codEvento == null) {

@@ -31,6 +31,7 @@ public final class EventoMapper {
 
         if (dto.endereco() != null) {
             EventoEndereco endereco = EventoEnderecoMapper.toEntity(dto.endereco());
+            endereco.setEvento(evento);
             evento.setEndereco(endereco);
         }
 
