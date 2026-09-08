@@ -68,6 +68,29 @@ Implementados como `records` do Java 21, assegurando imutabilidade, integridade 
 
 ---
 
+## Camada de Negócios (Services & Exceptions)
+
+A lógica central da aplicação é encapsulada em serviços transacionais com isolamento de regras e disparo de exceções HTTP padronizadas:
+
+* **`MusicoService`:** Regra de unicidade de e-mail (`existsByEmail`), cadastro de novos músicos e consultas operacionais.
+* **`EventoService`:** Geração automática do identificador universal (`UUID`) do QR Code, persistência atômica em cascata do endereço e consulta de shows ativos filtrados por cidade.
+* **`BilhetinhoService`:** Validação de evento ativo ao receber pedidos do público, vínculo relacional automático com o músico, fila ordenada cronologicamente e operações de aceite, recusa e cancelamento.
+* **`ResourceNotFoundException`:** Exceção com mapeamento automático para HTTP 404 (Not Found).
+* **`BusinessRuleException`:** Exceção com mapeamento automático para HTTP 400 (Bad Request).
+
+---
+
+## Camada de Mapeamento (Mappers)
+
+Implementadas seguindo o padrão de **Utility Classes** (construtor privado bloqueado contra instanciação, métodos puramente estáticos e *null-safety*):
+
+* **`MusicoMapper`:** Conversão bidirecional entre `Musico` e `MusicoRequestDTO` / `MusicoResponseDTO`.
+* **`EventoEnderecoMapper`:** Conversão entre `EventoEndereco` e `EventoEnderecoDTO`.
+* **`EventoMapper`:** Montagem do agregado `Evento` vinculando entidade `Musico` e endereço em cascata, além da conversão para `EventoResponseDTO`.
+* **`BilhetinhoMapper`:** Montagem do pedido associando `Evento` ativo e `Musico`, com geração de timestamp e conversão para `BilhetinhoResponseDTO`.
+
+---
+
 Com a aplicação rodando, a documentação interativa e os testes de todas as rotas estão disponíveis em:
 
 * **Swagger UI:** `http://localhost:8080/swagger-ui.html`
