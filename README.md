@@ -131,10 +131,10 @@ A API implementa integralmente os 4 verbos HTTP exigidos (`GET`, `POST`, `PUT`, 
 ## Tratamento Global de Erros e Perfis de Execução
 
 * **`GlobalExceptionHandler` (`@RestControllerAdvice`):** Intercepta exceções em toda a API devolvendo o payload padronizado `ErrorResponseDTO` (`timestamp`, `status`, `error`, `message`, `path`).
-* **Supressão de Stack Trace:** O atributo `"trace"` é suprimido por padrão, garantindo que detalhes da infraestrutura da JVM não vazem para clientes externos.
-* **Perfis de Execução (`spring.profiles.active: ${APP_PROFILE:dev}`):**
-  * **`dev` (`application-dev.yml`):** Perfil padrão para desenvolvimento local com SQL formatado no terminal (`show-sql: true`, `format_sql: true`), logs em nível `DEBUG` e chave `SHOW_TRACE` opcional.
-  * **`prod` (`application-prod.yml`):** Perfil enxuto para containers e produção com supressão total de traces e logs em nível `INFO`.
+* **Supressão de Stack Trace por Padrão:** Na execução normal, o atributo `"trace"` é completamente omitido do JSON retornado ao cliente.
+* **Perfis de Execução e Configuração:**
+  * **Padrão (`application.yml`):** Configuração segura e enxuta para operação padrão (sem poluição de SQL no console, sem `"trace"` nos erros e logs em nível `INFO`).
+  * **Desenvolvimento (`application-dev.yml`):** Ativado passando `"-Dspring-boot.run.profiles=dev"`. Habilita exibição e formatação de queries SQL no console (`show-sql: true`, `format_sql: true`), logs detalhados em nível `DEBUG` e inclusão do stack trace no JSON (`include-trace: true`) para depuração.
 
 ---
 
