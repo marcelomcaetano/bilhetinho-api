@@ -91,6 +91,43 @@ Implementadas seguindo o padrão de **Utility Classes** (construtor privado bloq
 
 ---
 
+## Controladores REST e Rotas da API
+
+A API implementa integralmente os 4 verbos HTTP exigidos (`GET`, `POST`, `PUT`, `DELETE`), com suporte universal a CORS (`@CrossOrigin(origins = "*")`) para integração com o Front-End:
+
+### Músicos (`/api/musicos`)
+
+| Verbo | Rota | Descrição | Retorno |
+|---|---|---|---|
+| `POST` | `/api/musicos` | Cadastra um novo músico | `201 Created` |
+| `GET` | `/api/musicos` | Lista todos os músicos cadastrados | `200 OK` |
+| `GET` | `/api/musicos/{id}` | Busca músico por identificador | `200 OK` |
+| `GET` | `/api/musicos/email/{email}` | Busca músico por e-mail | `200 OK` |
+
+### Eventos / Shows (`/api/eventos`)
+
+| Verbo | Rota | Descrição | Retorno |
+|---|---|---|---|
+| `POST` | `/api/eventos` | Cria show com endereço integrado ao ViaCEP e gera UUID | `201 Created` |
+| `GET` | `/api/eventos` | Lista shows ativos (filtro opcional: `?cidade=Rio`) | `200 OK` |
+| `GET` | `/api/eventos/{id}` | Detalhes do show por ID | `200 OK` |
+| `GET` | `/api/eventos/codigo/{codEvento}` | Localiza show pelo UUID do QR Code | `200 OK` |
+| `GET` | `/api/eventos/musico/{musicoId}` | Lista shows de um determinado artista | `200 OK` |
+| `PUT` | `/api/eventos/{id}/status` | Atualiza status do show (`ATIVO`, `ENCERRADO`) | `200 OK` |
+
+### Bilhetinhos / Pedidos de Música (`/api/bilhetinhos`)
+
+| Verbo | Rota | Descrição | Retorno |
+|---|---|---|---|
+| `POST` | `/api/bilhetinhos` | Envia pedido de música para um show ativo | `201 Created` |
+| `GET` | `/api/bilhetinhos/{id}` | Consulta detalhes do pedido por ID | `200 OK` |
+| `GET` | `/api/bilhetinhos/evento/{eventoId}` | Fila cronológica de pedidos do evento | `200 OK` |
+| `GET` | `/api/bilhetinhos/musico/{musicoId}` | Histórico de pedidos recebidos pelo músico | `200 OK` |
+| `PUT` | `/api/bilhetinhos/{id}/status` | Músico aceita ou recusa pedido (`ACEITO`, `REJEITADO`) | `200 OK` |
+| `DELETE` | `/api/bilhetinhos/{id}` | Cancela e remove um bilhetinho | `204 No Content` |
+
+---
+
 Com a aplicação rodando, a documentação interativa e os testes de todas as rotas estão disponíveis em:
 
 * **Swagger UI:** `http://localhost:8080/swagger-ui.html`
