@@ -1,0 +1,17 @@
+# Perfil de Desenvolvimento Local (dev)
+spring:
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+app:
+  error:
+    # Por padrão, false remove o atributo 'trace' do JSON.
+    # Defina como true (ou variável de ambiente SHOW_TRACE=true) se desejar inspecionar o stack trace no payload de erro durante o desenvolvimento.
+    include-trace: ${SHOW_TRACE:false}
+
+logging:
+  level:
+    br.com.mmc.bilhetinho_api: DEBUG

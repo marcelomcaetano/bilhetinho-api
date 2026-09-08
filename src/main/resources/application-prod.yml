@@ -1,0 +1,12 @@
+# Perfil de Produção / Container (prod)
+spring:
+  jpa:
+    show-sql: false
+
+app:
+  error:
+    include-trace: false
+
+logging:
+  level:
+    br.com.mmc.bilhetinho_api: INFO

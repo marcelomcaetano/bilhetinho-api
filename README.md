@@ -128,6 +128,16 @@ A API implementa integralmente os 4 verbos HTTP exigidos (`GET`, `POST`, `PUT`, 
 
 ---
 
+## Tratamento Global de Erros e Perfis de Execução
+
+* **`GlobalExceptionHandler` (`@RestControllerAdvice`):** Intercepta exceções em toda a API devolvendo o payload padronizado `ErrorResponseDTO` (`timestamp`, `status`, `error`, `message`, `path`).
+* **Supressão de Stack Trace:** O atributo `"trace"` é suprimido por padrão, garantindo que detalhes da infraestrutura da JVM não vazem para clientes externos.
+* **Perfis de Execução (`spring.profiles.active: ${APP_PROFILE:dev}`):**
+  * **`dev` (`application-dev.yml`):** Perfil padrão para desenvolvimento local com SQL formatado no terminal (`show-sql: true`, `format_sql: true`), logs em nível `DEBUG` e chave `SHOW_TRACE` opcional.
+  * **`prod` (`application-prod.yml`):** Perfil enxuto para containers e produção com supressão total de traces e logs em nível `INFO`.
+
+---
+
 Com a aplicação rodando, a documentação interativa e os testes de todas as rotas estão disponíveis em:
 
 * **Swagger UI:** `http://localhost:8080/swagger-ui.html`
