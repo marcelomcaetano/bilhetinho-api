@@ -23,6 +23,10 @@ spring:
 app:
   error:
     include-trace: false
+  viacep:
+    url: https://viacep.com.br/ws
+    connect-timeout-ms: 5000
+    read-timeout-ms: 5000
 
 logging:
   level:

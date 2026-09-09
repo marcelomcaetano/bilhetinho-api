@@ -126,6 +126,30 @@ A API implementa integralmente os 4 verbos HTTP exigidos (`GET`, `POST`, `PUT`, 
 | `PUT` | `/api/bilhetinhos/{id}/status` | Músico aceita ou recusa pedido (`ACEITO`, `REJEITADO`) | `200 OK` |
 | `DELETE` | `/api/bilhetinhos/{id}` | Cancela e remove um bilhetinho | `204 No Content` |
 
+### Endereços e Integração com API Externa (`/api/enderecos`)
+
+| Verbo | Rota | Descrição | Retorno |
+|---|---|---|---|
+| `GET` | `/api/enderecos/cep/{cep}` | Consulta CEP na API externa ViaCEP, normaliza os dados e retorna ao front-end | `200 OK` |
+| `GET` | `/api/enderecos/busca?uf={uf}&cidade={cidade}&logradouro={logradouro}` | Busca reversa por logradouro na API externa ViaCEP | `200 OK` |
+
+---
+
+## Integração com API Externa (ViaCEP)
+
+Em conformidade com os critérios avaliativos de **Consumo de API Externa** da disciplina de Engenharia de Software da PUC-Rio, a `bilhetinho-api` integra-se diretamente à API pública dos Correios via **ViaCEP**:
+
+* **Serviço Integrado:** [ViaCEP](https://viacep.com.br/) — Web Service gratuito e de alta disponibilidade para validação e consulta de Códigos de Endereçamento Postal (CEP) brasileiros.
+* **Autenticação:** Aberta e pública (dispensa chaves de API ou tokens de autenticação).
+* **Endpoints Externos Consumidos:**
+  * `GET https://viacep.com.br/ws/{cep}/json/` — Consulta direta por CEP com 8 dígitos.
+  * `GET https://viacep.com.br/ws/{uf}/{cidade}/{logradouro}/json/` — Busca reversa por nome da rua/logradouro.
+* **Tratamento e Normalização no Back-End:**
+  * **Consumo Transparente:** Os dados externos são consumidos internamente pelo back-end através do `RestClient` nativo do Spring Boot, sem expor chamadas externas diretas ou redirecionar o usuário no front-end.
+  * **Normalização Semântica:** O campo `localidade` retornado pelo ViaCEP é tratado e mapeado para o atributo `cidade`, harmonizando o contrato de dados com [`EventoEnderecoDTO.java`](file:///d:/development/workspace/pucrio/gestao-agil-de-projetos-e-produtos/MVP/bilhetinho-webgui/bilhetinho-api/src/main/java/br/com/mmc/bilhetinho_api/dto/EventoEnderecoDTO.java).
+  * **Resiliência e Timeouts:** Configuração explícita de *connect timeout* e *read timeout* de 5 segundos via `ClientHttpRequestFactory`, impedindo o travamento de requisições caso o provedor passe por instabilidade.
+  * **Tratamento de Exceções:** Retornos com a flag `erro: true` são convertidos para `404 Not Found` (`ResourceNotFoundException`), e formatos fora da regra geram `400 Bad Request` (`BusinessRuleException`).
+
 ---
 
 ## Tratamento Global de Erros e Perfis de Execução
