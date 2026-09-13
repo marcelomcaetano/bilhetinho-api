@@ -14,7 +14,6 @@ public record BilhetinhoRequestDTO(
     @Size(max = 100, message = "O nome da música deve ter no máximo 100 caracteres")
     String musica,
 
-    @NotBlank(message = "O nome do artista é obrigatório")
     @Size(max = 100, message = "O nome do artista deve ter no máximo 100 caracteres")
     String artista,
 

@@ -47,7 +47,7 @@ public class Bilhetinho {
     @Column(nullable = false, length = 100)
     private String musica;
 
-    @Column(nullable = false, length = 100)
+    @Column(length = 100)
     private String artista;
 
     @Column(name = "nome_solicitante", nullable = false, length = 100)

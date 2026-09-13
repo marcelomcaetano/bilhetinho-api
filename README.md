@@ -114,6 +114,7 @@ A API implementa integralmente os 4 verbos HTTP exigidos (`GET`, `POST`, `PUT`, 
 | `GET` | `/api/eventos/codigo/{codEvento}` | Localiza show pelo UUID do QR Code | `200 OK` |
 | `GET` | `/api/eventos/musico/{musicoId}` | Lista shows de um determinado artista | `200 OK` |
 | `PUT` | `/api/eventos/{id}/status` | Atualiza status do show (`ATIVO`, `ENCERRADO`) | `200 OK` |
+| `DELETE` | `/api/eventos/{id}` | Exclui o show e todos os bilhetinhos relacionados | `204 No Content` |
 
 ### Bilhetinhos / Pedidos de Música (`/api/bilhetinhos`)
 

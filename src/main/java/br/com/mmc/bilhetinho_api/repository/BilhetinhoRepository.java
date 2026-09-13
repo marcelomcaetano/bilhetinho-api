@@ -17,4 +17,6 @@ public interface BilhetinhoRepository extends JpaRepository<Bilhetinho, Long> {
     List<Bilhetinho> findByEventoIdAndStatusOrderByDataHoraAsc(Long eventoId, StatusBilhetinho status);
 
     long countByEventoIdAndStatus(Long eventoId, StatusBilhetinho status);
+
+    void deleteByEventoId(Long eventoId);
 }

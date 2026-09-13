@@ -8,6 +8,7 @@ import br.com.mmc.bilhetinho_api.mapper.EventoMapper;
 import br.com.mmc.bilhetinho_api.model.Evento;
 import br.com.mmc.bilhetinho_api.model.Musico;
 import br.com.mmc.bilhetinho_api.model.StatusEvento;
+import br.com.mmc.bilhetinho_api.repository.BilhetinhoRepository;
 import br.com.mmc.bilhetinho_api.repository.EventoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,7 @@ import java.util.UUID;
 public class EventoService {
 
     private final EventoRepository eventoRepository;
+    private final BilhetinhoRepository bilhetinhoRepository;
     private final MusicoService musicoService;
 
     @Transactional
@@ -86,5 +88,12 @@ public class EventoService {
     public Evento buscarEntidadePorCodEvento(UUID codEvento) {
         return eventoRepository.findByCodEvento(codEvento)
                 .orElseThrow(() -> new ResourceNotFoundException("Evento não encontrado com o código informado: " + codEvento));
+    }
+
+    @Transactional
+    public void excluir(Long id) {
+        Evento evento = buscarEntidadePorId(id);
+        bilhetinhoRepository.deleteByEventoId(evento.getId());
+        eventoRepository.delete(evento);
     }
 }
