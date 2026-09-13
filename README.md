@@ -162,7 +162,47 @@ Em conformidade com os critérios avaliativos de **Consumo de API Externa** da d
 
 ---
 
+## Execução via Docker
+
+A `bilhetinho-api` possui containerização completa em conformidade com as exigências da PUC-Rio (Engenharia de Software):
+
+* **Dockerfile de Estágio Único (Single-Stage Build):**
+  * Utiliza a imagem oficial `maven:3.9.6-eclipse-temurin-21-alpine`.
+  * Realiza a compilação automática do código-fonte via `mvn clean package -DskipTests` e executa o `.jar` gerado na porta `8080`, sem exigir que o avaliador tenha Java ou Maven instalados no computador host.
+
+### Construindo a Imagem Docker
+
+Na raiz da pasta `bilhetinho-api`, execute:
+
+```bash
+docker build -t bilhetinho-api .
+```
+
+### Executando o Container da API
+
+Certifique-se de que o banco PostgreSQL esteja rodando (localmente ou via Docker). Para executar a API apontando para o seu banco:
+
+```bash
+docker run -d \
+  --name bilhetinho-api \
+  -p 8080:8080 \
+  -e DB_HOST=host.docker.internal \
+  -e DB_PORT=5432 \
+  -e DB_NAME=bilhetinho_db \
+  -e DB_USER=postgres \
+  -e DB_PASSWORD=postgres \
+  bilhetinho-api
+```
+
+> [!TIP]
+> Caso utilize Linux, substitua `host.docker.internal` pelo IP da máquina host ou adicione a flag `--network host`.  
+> Ao utilizar a orquestração via **Docker Compose** no repositório central `bilhetinho-webgui`, a rede e as variáveis são configuradas de forma 100% automática!
+
+---
+
+## Documentação Interativa da API (Swagger / OpenAPI)
+
 Com a aplicação rodando, a documentação interativa e os testes de todas as rotas estão disponíveis em:
 
-* **Swagger UI:** `http://localhost:8080/swagger-ui.html`
-* **OpenAPI JSON:** `http://localhost:8080/api-docs`
+* **Swagger UI:** [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
+* **OpenAPI JSON:** [http://localhost:8080/api-docs](http://localhost:8080/api-docs)
